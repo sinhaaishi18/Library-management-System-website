@@ -1,4 +1,4 @@
-# Leaf & Ledger — No Firebase Edition
+# Leaf & Ledger 
 
 A responsive Library Management System using only HTML, CSS, JavaScript and browser `localStorage`.
 
