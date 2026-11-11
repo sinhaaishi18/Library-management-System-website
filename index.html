@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#19382d">
+  <title>Leaf & Ledger | Library Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="appShell" class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">L</div>
+        <div><h2>Leaf & Ledger</h2><p>THE COMMUNITY LIBRARY</p></div>
+      </div>
+      <div class="nav-label">WORKSPACE</div>
+      <nav>
+        <a href="#overview" class="nav-link active">⌂ <span>Overview</span></a>
+        <a href="#explore" class="nav-link">▤ <span>Explore books</span></a>
+        <a href="#inventory" class="nav-link">▣ <span>Library inventory</span></a>
+        <a href="#transactions" class="nav-link">↗ <span>Issue & return</span></a>
+        <a href="#history" class="nav-link">◷ <span>Reading history</span></a>
+      </nav>
+      <div class="sidebar-note">
+        <span class="note-icon">✦</span>
+        <p class="note-title">A little reminder</p>
+        <p>Every book is a new journey waiting to begin.</p>
+      </div>
+      <div class="sidebar-footer">
+        <div class="avatar">LM</div>
+        <div><strong>Library Manager</strong><small id="signedInEmail">Administrator</small></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div><p class="eyebrow">YOUR LIBRARY, YOUR SPACE</p><h1>Library dashboard</h1></div>
+        <div class="topbar-actions">
+          <span class="connection"><span class="status-dot"></span><span id="connectionText">Saved on this device</span></span>
+          <button id="exportButton" class="outline-button">Export backup</button>
+        </div>
+      </header>
+
+      <section id="overview" class="welcome-banner">
+        <div class="welcome-copy">
+          <p class="eyebrow light">A LIBRARY THAT TRAVELS WITH YOU</p>
+          <h2>Somewhere, a book<br>is waiting for you.</h2>
+          <p>Keep your collection organised, discover books and manage borrowing — with the same live library on every device.</p>
+          <a href="#explore" class="banner-button">Explore the collection <span>→</span></a>
+        </div>
+        <div class="banner-art" aria-hidden="true"><div class="art-sun"></div><div class="book book-one"></div><div class="book book-two"></div><div class="book book-three"></div><div class="art-leaf">❧</div></div>
+      </section>
+
+      <section class="stats-grid">
+        <article class="stat-card"><div class="stat-top"><span>Total titles</span><span class="stat-icon">▤</span></div><h2 id="totalBooks">0</h2><p>Books in your collection</p></article>
+        <article class="stat-card"><div class="stat-top"><span>Available copies</span><span class="stat-icon green">✓</span></div><h2 id="availableBooks">0</h2><p>Ready to be borrowed</p></article>
+        <article class="stat-card"><div class="stat-top"><span>Currently issued</span><span class="stat-icon orange">↗</span></div><h2 id="issuedBooks">0</h2><p>Active borrowing records</p></article>
+        <article class="stat-card"><div class="stat-top"><span>Books returned</span><span class="stat-icon purple">↩</span></div><h2 id="returnedBooks">0</h2><p>Completed returns</p></article>
+      </section>
+
+      <section id="explore" class="content-section">
+        <div class="section-heading"><div><p class="eyebrow">THE COLLECTION</p><h2>Explore books</h2><p class="section-description">Find your next favourite read.</p></div></div>
+        <div class="search-panel"><span class="search-symbol">⌕</span><input id="searchInput" type="search" placeholder="Search by book ID or title…"><button id="clearSearch" class="text-button" type="button">Clear</button></div>
+        <div id="exploreBooks" class="book-grid"><div class="empty-state">Loading your collection…</div></div>
+      </section>
+
+      <section id="inventory" class="content-section">
+        <div class="section-heading"><div><p class="eyebrow">LIBRARIAN DESK</p><h2>Manage inventory</h2><p class="section-description">Add new titles and keep track of your collection.</p></div></div>
+        <div class="panel">
+          <h3>Add a new book</h3>
+          <form id="addBookForm" class="form-grid">
+            <div class="form-field"><label for="bookId">Book ID</label><input id="bookId" required placeholder="e.g. BK101"></div>
+            <div class="form-field"><label for="bookTitle">Book title</label><input id="bookTitle" required placeholder="Enter book title"></div>
+            <div class="form-field"><label for="bookAuthor">Author</label><input id="bookAuthor" required placeholder="Enter author name"></div>
+            <div class="form-field"><label for="bookYear">Publication year</label><input id="bookYear" type="number" min="1" required placeholder="e.g. 2024"></div>
+            <div class="form-field"><label for="bookCopies">Available copies</label><input id="bookCopies" type="number" min="0" required placeholder="e.g. 5"></div>
+            <div class="form-field form-action"><button type="submit" class="primary-button">＋ Add book</button></div>
+          </form>
+          <p id="addBookMessage" class="form-message" aria-live="polite"></p>
+        </div>
+        <div class="panel inventory-panel">
+          <div class="panel-heading"><div><h3>Library inventory</h3><p>All registered books and their availability.</p></div><span id="inventoryCount" class="count-label">0 titles</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Book ID</th><th>Title</th><th>Author</th><th>Year</th><th>Copies available</th><th>Status</th></tr></thead><tbody id="inventoryTable"></tbody></table></div>
+        </div>
+      </section>
+
+      <section id="transactions" class="content-section">
+        <div class="section-heading"><div><p class="eyebrow">BORROWING DESK</p><h2>Issue & return books</h2><p class="section-description">Record borrowing transactions and process returns.</p></div></div>
+        <div class="transaction-grid">
+          <div class="panel"><div class="transaction-icon issue-icon">↗</div><h3>Issue a book</h3><p class="panel-description">Issue an available book to a student.</p>
+            <form id="issueForm"><div class="form-field"><label for="issueBookId">Book ID</label><input id="issueBookId" required placeholder="Enter Book ID"></div><div class="form-field"><label for="issueStudentId">Student ID</label><input id="issueStudentId" required placeholder="Enter Student ID"></div><button type="submit" class="primary-button full-button">Issue book →</button></form><p id="issueMessage" class="form-message" aria-live="polite"></p>
+          </div>
+          <div class="panel"><div class="transaction-icon return-icon">↩</div><h3>Return a book</h3><p class="panel-description">Complete an outstanding borrowing record.</p>
+            <form id="returnForm"><div class="form-field"><label for="returnBookId">Book ID</label><input id="returnBookId" required placeholder="Enter Book ID"></div><div class="form-field"><label for="returnStudentId">Student ID</label><input id="returnStudentId" required placeholder="Enter Student ID"></div><button type="submit" class="secondary-button full-button">Return book ↩</button></form><p id="returnMessage" class="form-message" aria-live="polite"></p>
+          </div>
+        </div>
+        <div class="panel inventory-panel"><div class="panel-heading"><div><h3>Currently issued books</h3><p>Books that are currently borrowed.</p></div></div><div class="table-wrap"><table><thead><tr><th>Book ID</th><th>Book title</th><th>Student ID</th><th>Issue date</th><th>Status</th></tr></thead><tbody id="issuedTable"></tbody></table></div></div>
+      </section>
+
+      <section id="history" class="content-section">
+        <div class="section-heading"><div><p class="eyebrow">ACTIVITY LOG</p><h2>Reading history</h2><p class="section-description">A record of all issue and return transactions.</p></div></div>
+        <div class="panel inventory-panel"><div class="table-wrap"><table><thead><tr><th>Book ID</th><th>Book title</th><th>Student ID</th><th>Issue date</th><th>Return date</th><th>Status</th></tr></thead><tbody id="historyTable"></tbody></table></div></div>
+      </section>
+
+      <footer><p>Leaf & Ledger <span>·</span> A thoughtfully organised library.</p><p>Preloaded collection · Personal changes are saved on this device.</p></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js" defer></script>
+</body>
+</html>
